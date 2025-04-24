@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="View detailed NCR (Non-Conformance Report) information, including status, quantities, and defect descriptions.">
+    <title>NCR Details</title>
+
+    <link href="styles/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
+</head>
+
+<body>
+    <header>
+        <div class="skip-links-div">
+            <a tabindex="1" href="#search" class="skip-link" aria-label="Skip to Search NCR" title="Skip to Search NCR">Skip to
+                Search NCR</a>
+            <a tabindex="2" href="#ncr-info" class="skip-link" aria-label="Skip to NCR Details " title="Skip to NCR Details ">Skip to
+                NCR Details</a>
+            <a tabindex="3" href="#footer" class="skip-link" aria-label="Skip to Footer" title="Skip to Footer">Skip to Footer</a>
+        </div>
+        <div class="header-col">
+            <div class="header-col-left">
+                <!--mobile navigation menu-->
+                <div class="mob-nav" id="mobNav">
+                    <button id="toggleNavButton" class="mob-nav-icon" aria-label="Toggle Navigation Menu"
+                        onclick="toggleDropdown()"></button>
+                </div>
+                <!--logo-->
+                <div class="logo">
+                    <a href="index.html" data-tippy-content="Crossfire logo" tabindex="10">
+                        <img src="images/logo.png" alt="Crossfire" height="74" width="345">
+                    </a>
+                </div>
+                <!--navigation menu-->
+                <nav aria-label="Main Navigation" id="mainNav">
+                    <ul>
+                        <li id="homeLi"><a href="index.html" id="home" data-tippy-content="Dashboard" aria-current="page"
+                                aria-label="Dashboard page" tabindex="10">Dashboard</a></li>
+                        <li id="createLi"><a href="create.html" id="create" data-tippy-content="Create NCR"
+                                aria-label="Create new Non-Conformance Report" tabindex="15">Create <abbr
+                                    title="Non-Conformance Report">NCR</abbr></a></li>
+                        <li id="viewLi"><a href="view.html" class="nav-active" id="view" data-tippy-content="NCR Log" tabindex="20"
+                                aria-label="View existing Non-Conformance Reports"><abbr
+                                    title="Non-Conformance Reports">NCR</abbr> Log</a></li>
+                        <li id="reportsLi"><a href="reports.html" id="reports" data-tippy-content="Audits" aria-label="View Audits"
+                                tabindex="25">Audits</a></li>
+                        <li id="metricsLi"><a href="metrics.html" id="metrics" data-tippy-content="Reports" aria-label="View Reports"
+                                tabindex="30">Reports</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-col-right">
+                <div class="header-col-right">
+                    <div class="faqs-button-container">
+                        <a href="faqs.html" aria-label="Navigate to FAQs Page" data-tippy-content="FAQs"
+                            tabindex="35">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9.529 9.988a2.502 2.502 0 1 1 5 .191A2.441 2.441 0 0 1 12 12.582V14m-.01 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="notification">
+                        <div class="notif-button-container">
+                            <button id="btnNotification" data-tippy-content="Notifications" aria-haspopup="true"
+                                aria-expanded="false" tabindex="40" aria-controls="notifDisplay"
+                                onclick="toggleDropdown()">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <desc>Image depiction for FAQ Page</desc>
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="1.75"
+                                        d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z" />
+                                </svg>
+                                <span id="spnCount" class="notif-count" aria-live="polite">0</span>
+                            </button>
+                        </div>
+                        <div class="notif-dropdown-container" id="notifDisplay">
+                            <div class="notif-label">
+                                <span class="notif-title">Notifications</span>
+                                <div class="notif-desc" id="notifDesc">
+                                    <!-- Notifications description -->
+                                </div>
+                            </div>
+                            <div class="notif-list" id="notifList" tabindex="0">
+                                <!-- Notifications will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile">
+                    <div class="user-container">
+                        <button id="btnProfile" aria-label="Click to view profile" data-tippy-content="Profile Menu"
+                            aria-haspopup="true" tabindex="45" aria-expanded="false" aria-controls="profileDropdown"
+                            onclick="toggleProfileDropdown()">
+                            <span class="user-avatar">
+                                <img id="profilePic" src="images/user-profile.png" alt="User profile image"
+                                    title="User profile image" height="50" width="50">
+                            </span>
+                            <span class="user-details">
+                                <span id="userFullname" class="user-fullname">Cassandra Washington</span>
+                                <span id="userRole" class="user-role">Administrator</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div id="profileDropdown" class="profile-dropdown" tabindex="0" role="region"
+                        aria-labelledby="btnProfile">
+                        <ul>
+                            <li>
+                                <a href="profile_settings.html" title="Account Settings"
+                                    aria-label="Navigate to Profile Page" tabindex="0">
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <title>Account Settings Icon</title>
+                                        <path stroke="currentColor" stroke-width="2"
+                                            d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+                                    Account Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a id="logout" title="Logout" aria-label="Navigate to Logout Page" tabindex="0">
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <title>Logout Icon</title>
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                    </svg>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumb-container">
+                <div aria-label="Breadcrumb">
+                    <ol class="breadcrumb-list" ></ol>
+                    <!-- Breadcrumbs will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="page-title">
+                <h1 id="ncr-info">NCR Information</h1>
+            </div>
+
+            <!--Print Section-->
+            <div id="printSection">
+                <div id="ncrInfo" class="form-ncr">
+                    <!--NCR Generative Details-->
+                    <div class="div-container">
+                        <div class="form-header">
+                            <div class="form-ncr-details">
+                                <strong>NCR Number:</strong>
+                                <span  id="ncrNumber"></span>
+                            </div>
+                            <div class="form-ncr-details">
+                                <strong>Date Created:</strong>
+                                <span  id="dateCreated"></span>
+                            </div>
+                            <div class="form-ncr-details">
+                                <strong>Created By:</strong>
+                                <span  id="createdBy"></span>
+                            </div>
+                            <div class="form-ncr-details">
+                                <strong>Department:</strong>
+                                <span  id="ncrStatus"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--NCR Basic Details-->
+                    <div class="div-container">
+                        <div class="form-section">
+                            <div class="four-cols">
+                                <div class="form-ncr-details">
+                                    <strong>Supplier Name:</strong>
+                                    <span  id="supplierNameD"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Production Number:</strong>
+                                    <span  id="poNumber"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Quantity Received:</strong>
+                                    <span  id="quantityReceived"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Forward to Engineering:</strong>
+                                    <span  id="engNeeded"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Applicable Process:</strong>
+                                    <span  id="applicableProcess"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Sales Order Number:</strong>
+                                    <span  id="soNumber"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Quantity Defective:</strong>
+                                    <span  id="quantityDefect"></span>
+                                </div>
+                                <div class="form-ncr-details">
+                                    <strong>Item marked conforming:</strong>
+                                    <span  id="itemConform"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--NCR Tab Section-->
+                    <div class="div-container">
+                        <!--Tab Header-->
+                        <div class="tab-cards">
+                            <input id="sectionQuality" type="radio" class="tab-selector" name="tabs">
+                            <input id="sectionEngineer" type="radio" class="tab-selector" name="tabs">
+                            <input id="sectionPurchasing" type="radio" class="tab-selector" name="tabs">
+
+                            <div class="tab-head">
+                                <label for="sectionQuality" id="sectionQualitylabel">Quality</label>
+                                <label for="sectionEngineer" id="sectionEngineerlabel">Engineer</label>
+                                <label for="sectionPurchasing" id="sectionPurchasinglabel">Purchasing</label>
+                            </div>
+
+                            <!--Tab Section: Quantity-->
+                            <div id="tabQuality" class="tab-content">
+                                <div class="form-section">
+                                    <div class="one-col">
+                                        <div class="form-ncr-details">
+                                            <strong>Item Description:</strong>
+                                            <span  id="itemDescription"></span>
+                                        </div>
+                                        <div class="form-ncr-details">
+                                            <strong>Description of Defect:</strong>
+                                            <ul  id="defectDescription"></ul>
+                                        </div>
+                                        <div class="form-ncr-details one-col-form">
+                                            <strong>Uploaded Images/Videos:</strong>
+                                            <div id="thumbnailsContainer" class="thumbnails-container">
+                                                <!-- Thumbnails will be dynamically inserted here -->
+                                            </div>
+                                        </div>
+                                        <div id="qCompletionToggle" class="one-col non">
+                                            <hr>
+                                            <div class="two-cols">
+                                                <div class="form-ncr-details">
+                                                    <strong>Completed By:</strong>
+                                                    <span id="completedByQI"></span>
+                                                </div>
+                                                <div class="form-ncr-details">
+                                                    <strong>Completed On:</strong>
+                                                    <span  id="completedOnQI"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-ncr-buttons">
+                                        <button id="printButton" title="Download as PDF" class="button-primary"
+                                            tabindex="50" onclick="printPdf()">Download as PDF</button>
+                                        <button id="editButton" title="Edit" class="button-primary" tabindex="55"
+                                            onclick="window.location.href='create.html?ncr=' + document.getElementById('ncrNumber').textContent;">Edit</button>
+                                        <!-- <button id="revertButton" class="button-primary" tabindex="22" onclick="popupComment()">Revert to Quality</button> -->
+                                    </div>
+                                </div>
+
+                                <!--modal for the text box-->
+                                <!-- <div>
+                                    <div id="modal" class="modal-container" style="visibility: hidden; display: none">
+                                        <span onclick="closeModal()" class="close"></span>
+                                        <span tabindex="1" class="btn-close" onclick="closeModal()">
+                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
+                                                viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2.5" d="M6 18 17.94 6M18 18 6.06 6" />
+                                            </svg>
+                                        </span>
+                                        <label for="reason" aria-label="Reason, required">Reason: <span class="required">*</span></label>
+                                        <textarea id="reason" name="reason" rows="2" placeholder="Reason for reverting" required></textarea>
+
+                                        <div class="form-ncr-buttons">
+                                            <button type="button" class="button-primary" tabindex="0" onclick="sendComment()">Send</button>
+                                            <button type="button" id="editButton" tabindex="0" class="button-secondary" onclick="closeModal()">Cancel</button>
+                                        </div>
+
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <!--Tab Section: Engineer-->
+                            <div id="tabEngineer" class="tab-content">
+                                <div class="form-section" id="createEditModal">
+                                    <div class="two-cols">
+                                        <div class="form-ncr-details">
+                                            <strong>Review By CF Engineering:</strong>
+                                            <span id="reviewByCfEngineering"></span>
+                                        </div>
+                                        <div class="form-ncr-details">
+                                            <strong>Does Customer require notification of NCR?</strong>
+                                            <span id="customerNotification"></span>
+                                        </div>
+                                    </div>
+                                    <div class="one-col">
+                                        <hr>
+                                        <div class="form-ncr-details">
+                                            <strong>Disposition:</strong>
+                                            <span id="disposition"></span>
+                                        </div>
+                                        <hr>
+                                        <div class="form-ncr-details">
+                                            <strong>Does the drawing require updating?</strong>
+                                            <span id="drawingUpdate"></span>
+                                        </div>
+                                    </div>
+                                    <div class="one-col" id="eDrawingUpdateToggle">
+                                        <div class="two-cols">
+                                            <div class="form-ncr-details">
+                                                <strong>Original Revision Number:</strong>
+                                                <span id="originalRevNumber"></span>
+                                            </div>
+                                            <div class="form-ncr-details">
+                                                <strong>Updated Revision Number:</strong>
+                                                <span id="updatedRevNumber"></span>
+                                            </div>
+                                        </div>
+                                        <div class="two-cols bottom-margin">
+                                            <div class="form-ncr-details">
+                                                <strong>Revision Date:</strong>
+                                                <span id="revisionDate"></span>
+                                            </div>
+                                            <div class="form-ncr-details">
+                                                <strong>Name of Engineer:</strong>
+                                                <span id="engineerName"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="eCompletionToggle" class="one-col non">
+                                        <hr>
+                                        <div class="two-cols">
+                                            <div class="form-ncr-details">
+                                                <strong>Completed By:</strong>
+                                                <span id="completedByEng"></span>
+                                            </div>
+                                            <div class="form-ncr-details">
+                                                <strong>Completed On:</strong>
+                                                <span id="completedOnEng"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div class="form-ncr-buttons">
+                                        <button id="printButtonEng" title="Download as PDF" class="button-primary"
+                                            tabindex="23" onclick="printPdf()">Download as PDF</button>
+                                        <button id="editButtonEng" class="button-primary" tabindex="22"
+                                            onclick="window.location.href='create.html?ncr=' + document.getElementById('ncrNumber').textContent;">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Tab Section: Purchasing-->
+                            <div id="tabPurchasing" class="tab-content">
+                                <div class="form-section" id="createEditModal">
+                                    <div class="two-cols">
+                                        <div class="form-ncr-details">
+                                            <strong>Purchasing's Preliminary Decision:</strong>
+                                            <span id="preliminaryDecision"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="two-cols">
+                                        <div class="form-ncr-details">
+                                            <strong>Was a CAR raised?</strong>
+                                            <span id="carRaised"></span>
+                                        </div>
+                                        <div id="toggleCarNumber" class="form-ncr-details">
+                                            <strong>CAR Number:</strong>
+                                            <span id="carNumber"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="two-cols">
+                                        <div class="form-ncr-details">
+                                            <strong>Follow-up Required?</strong>
+                                            <span id="followUp"></span>
+                                        </div>
+                                    </div>
+                                    <div class="two-cols">
+                                        <div id="toggleFollowUpType" class="form-ncr-details">
+                                            <strong>Follow-up Type:</strong>
+                                            <span id="followUpType"></span>
+                                        </div>
+                                        <div id="toggleFollowUpDate" class="form-ncr-details">
+                                            <strong>Follow-up Date:</strong>
+                                            <span id="followUpDate"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="one-col">
+                                        <div class="form-ncr-details">
+                                            <strong>NCR Closed:</strong>
+                                            <span id="ncrClosed"></span>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="one-col non" id="completionToggle3">
+                                        <div class="two-cols">
+                                            <div class="form-ncr-details">
+                                                <strong>Completed By:</strong>
+                                                <span id="completedByPch"></span>
+                                            </div>
+                                            <div class="form-ncr-details">
+                                                <strong>Completed On</strong>
+                                                <span id="completedOnPch"></span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="form-ncr-buttons">
+                                        <button id="printButtonPch" title="Download as PDF" class="button-primary"
+                                            tabindex="23" onclick="printPdf()">Download as PDF</button>
+                                        <button id="editButtonPch" class="button-primary" tabindex="22"
+                                            onclick="window.location.href='create.html?ncr=' + document.getElementById('ncrNumber').textContent;">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <p title="Copyright Information"><small>&copy; 2024 Copyright. QCision - WireWits. All rights reserved.</small>
+        </p>
+    </footer>
+    <script src="scripts/functions.js"></script>
+    <script src="scripts/main.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const action = params.get("action");
+        const returnUrl = params.get("returnUrl");
+
+        
+        if (action === "print") {
+            
+            showToast(`If download doesn't starts automatically, manually click on the Download button at the bottom`,'info', 5000);
+            printPdf(); // Call the print function
+            setTimeout(() => {
+                if (returnUrl) {
+                    window.location.href = returnUrl; // Redirect back to the previous page
+                }
+            }, 1000); // Delay to allow the print dialog to open
+        }
+    });
+    
+    </script>
+</body>
+</html>

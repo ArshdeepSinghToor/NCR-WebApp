@@ -1,0 +1,95 @@
+{
+    "users": [
+        {
+            "user_Id": "1",
+            "user_name": "mallen",
+            "user_Firstname": "Marcus",
+            "user_Middlename": "A.",
+            "user_Lastname": "Allen",
+            "email": "mrashdeepsingh@gmail.com",
+            "password": "Quality1234",
+            "created_on": "2024-01-15T10:00:00Z",
+            "Department_Name": "Quality",
+            "gender":"male",
+            "profilePicture": "images/user-profile_v1.png"
+        },
+        {
+            "user_Id": "2",
+            "user_name": "cwashington",
+            "user_Firstname": "Cassandra",
+            "user_Middlename": "B.",
+            "user_Lastname": "Washington",
+            "email": "jane.smith@example.com",
+            "password": "Quality1234",
+            "created_on": "2024-02-10T12:00:00Z",
+            "Department_Name": "Quality",
+            "gender": "female",
+            "profilePicture": "images/user-profile.png"
+        },
+        {
+            "user_Id": "3",
+            "user_name": "engineer",
+            "user_Firstname": "Sophia",
+            "user_Middlename": "C.",
+            "user_Lastname": "Lee",
+            "email": "wirewits2024@gmail.com",
+            "password": "Engineer1234",
+            "created_on": "2024-03-05T14:30:00Z",
+            "Department_Name": "Engineer",
+            "gender":"female",
+            "profilePicture": "images/user-profile.png"
+        },
+        {
+            "user_Id": "4",
+            "user_name": "engUser",
+            "user_Firstname": "James",
+            "user_Middlename": "D.",
+            "user_Lastname": "Smith",
+            "email": "jaylordnikkogonzales01@gmail.com",
+            "password": "James456",
+            "created_on": "2024-04-01T09:00:00Z",
+            "Department_Name": "Engineer",
+            "gender":"male",
+            "profilePicture": "images/user-profile_v1.png"
+        },
+        {
+            "user_Id": "5",
+            "user_name": "AdminGrace",
+            "user_Firstname": "Grace",
+            "user_Middlename": "C.",
+            "user_Lastname": "Saka",
+            "email": "grace.saka@example.com",
+            "password": "Admin1234",
+            "created_on": "2024-03-05T14:30:00Z",
+            "Department_Name": "Admin",
+            "gender":"female",
+            "profilePicture": "images/user-profile.png"
+        },
+        {
+            "user_Id": "6",
+            "user_name": "jsmith",
+            "user_Firstname": "Joshua",
+            "user_Middlename": "D.",
+            "user_Lastname": "Smith",
+            "email": "feranmieyitope@gmail.com",
+            "password": "Purchase1234",
+            "created_on": "2024-03-05T14:30:00Z",
+            "Department_Name": "Purchasing",
+            "gender":"male",
+            "profilePicture": "images/user-profile_v1.png"
+        },
+        {
+            "user_Id": "7",
+            "user_name": "scrispin",
+            "user_Firstname": "Sandra",
+            "user_Middlename": "",
+            "user_Lastname": "Crispin",
+            "email": "sandra.crispin@example.com",
+            "password": "Purchase1234",
+            "created_on": "2024-04-01T09:00:00Z",
+            "Department_Name": "Purchasing",
+            "gender":"female",
+            "profilePicture": "images/user-profile.png"
+        }
+    ]
+}
